@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.springframework</groupId>
-    <artifactId>gs-batch-processing</artifactId>
+    <artifactId>cs-batch-processing</artifactId>
     <version>0.1.2</version>
 
     <parent>
@@ -48,16 +48,16 @@
                   <appName>callicoder-heroku-maven-demo</appName>
                   <includeTarget>false</includeTarget>
                   <includes>
-                      <include>target/gs-batch-processing-0.1.0.jar</include>
+                      <include>target/cs-batch-processing-0.1.2.jar</include>
                   </includes>
                   <jdkVersion>1.8</jdkVersion>
                   <processTypes>
-                      <web>java -jar target/gs-batch-processing-0.1.0.jar</web>
+                      <web>java -jar target/cs-batch-processing-0.1.2.jar</web>
                   </processTypes>
               </configuration>
           </plugin>
         </plugins>
-        
+        <sourceDirectory>${basedir}/src/main/cs</sourceDirectory>
         
     </build>
 
