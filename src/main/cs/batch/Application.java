@@ -13,6 +13,6 @@ public class Application {
         return new RestTemplate();
     }
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(Application.class, args);
+    	SpringApplication.run(Application.class, args);
     }
 }

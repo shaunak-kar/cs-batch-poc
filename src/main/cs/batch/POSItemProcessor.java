@@ -13,9 +13,10 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.batch.item.ItemProcessor;
 
+import dto.POSFileDTO;
 import util.BatchUtils;
 
-public class POSItemProcessor implements ItemProcessor<POSFileMarshallingBean, JSONObject> {
+public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
 
     private static final Logger log = LoggerFactory.getLogger(POSItemProcessor.class);
 	private static final String FILE_SDU = "SDU";
@@ -26,17 +27,8 @@ public class POSItemProcessor implements ItemProcessor<POSFileMarshallingBean, J
 	boolean isUserException = false;
 	private char batchCount = 'A';
 
-    public JSONObject preprocessSduInputRecord(final POSFileMarshallingBean inputMarshalledRecord) throws Exception {
-        /*final String firstName = person.getFirstName().toUpperCase();
-        final String lastName = person.getLastName().toUpperCase();
-
-        final Person transformedPerson = new Person(firstName, lastName);
-
-        log.info("Converting (" + person + ") into (" + transformedPerson + ")");
-
-        return transformedPerson;*/
-    	
-    	System.out.println("Input Record: " + inputMarshalledRecord);
+    public JSONObject preprocessSduInputRecord(String obj) throws Exception {
+    	POSFileMarshallingBean inputMarshalledRecord = this.marshallPOSFileContents(obj);
     	//Create POSSDURecord from POSFileMarshallingBean
     	POSSDURecord inputRecord = BatchUtils.getSDURecordFromMarshallingBean(inputMarshalledRecord);
     	JSONObject fiRcvCollPostOutput = new JSONObject();
@@ -103,7 +95,40 @@ public class POSItemProcessor implements ItemProcessor<POSFileMarshallingBean, J
 		return fiRcvCollPostOutput;
     }
     
-    private JSONObject mapToOutputObject(POSSDURecord inputRecord, JSONObject json) {
+    private POSFileMarshallingBean marshallPOSFileContents(String posFileContents) {
+    	String header = posFileContents.substring(1, 21);
+    	String detail = posFileContents.substring(25, 127);
+    	String trailer = posFileContents.substring(131, 151);
+    	
+    	POSFileMarshallingBean pos1 = new POSFileMarshallingBean();
+    	System.out.println("Header: "+ header);
+    	System.out.println("Detail"+ detail);
+    	System.out.println("Trailer: "+ trailer);
+		 pos1.setPostHeaderRecordType(header.substring(0, 2));
+		 pos1.setPostFileSequenceNumber(header.substring(2, 12));
+		 pos1.setPostTransmitDate(header.substring(12, 20));
+		 
+		 pos1.setPostReceiptType(detail.substring(0, 2));
+		 pos1.setPostBatchDate(detail.substring(2, 10));
+		 pos1.setPostMemberId(detail.substring(10, 20));
+		 pos1.setPostScdNumber(detail.substring(20, 34));
+		 pos1.setPostShortName(detail.substring(34, 38));
+		 pos1.setPostCaseId(detail.substring(38, 47));
+		 pos1.setPostDefSsn(detail.substring(47, 56));
+		 pos1.setPostColDate(detail.substring(56, 64));
+		 pos1.setPostReceiptAmount(detail.substring(64, 73));
+		 pos1.setPostPayMethod(detail.substring(73, 74));
+		 pos1.setPostSource(detail.substring(74, 77));
+		 pos1.setPostEmpId(detail.substring(77, 87));
+		 pos1.setPostCheckNum(detail.substring(87, 101));
+		 
+		 pos1.setPostTrailerRecordType(trailer.substring(0, 2));
+		 pos1.setPostRecordCount(trailer.substring(2, 10));
+		 pos1.setPostTotalAmount(trailer.substring(10, 19));
+		return pos1;
+	}
+
+	private JSONObject mapToOutputObject(POSSDURecord inputRecord, JSONObject json) {
     	
 		JSONArray fiReceiptArray = new JSONArray();
 		JSONObject fiReceipt = new JSONObject();
@@ -233,7 +258,7 @@ public class POSItemProcessor implements ItemProcessor<POSFileMarshallingBean, J
 		return returnMap;
 	}
     @Override
-    public JSONObject process(POSFileMarshallingBean obj) throws Exception {
+    public JSONObject process(String obj) throws Exception {
 
     	JSONObject fiRcvCollPostOutput = null;
 

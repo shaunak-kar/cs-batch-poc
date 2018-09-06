@@ -1,5 +1,7 @@
 package batch;
 
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.codehaus.jettison.json.JSONException;
@@ -27,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -45,6 +48,7 @@ import writer.POSCollectionWriter;
 
 @Configuration
 @EnableBatchProcessing
+@PropertySource("classpath:batch.properties")
 public class BatchConfiguration {
 
 	@Autowired
@@ -54,16 +58,21 @@ public class BatchConfiguration {
 	public StepBuilderFactory stepBuilderFactory;
 	
 	@Bean
-	public ItemReader<POSFileDTO> posFileReader() throws JSONException{
-		//@Value("#{jobParameters['id']}") String fileId
-		String fileId = "0681h0000001nZCAAY";
-		System.out.println("Reading File:" + fileId);
+	@StepScope
+	public ItemReader<String> posFileReader(@Value("#{jobParameters}") Map<String,String> jobParams) {
+		//String fileId = "0681h0000001nniAAA";
+		System.out.println("Params:" + jobParams);
+		System.out.println("Reading File:" + jobParams.get("fileId"));
 
 		RestTemplate restTemplate = new RestTemplate();
 
 		// Body
 		JSONObject request = new JSONObject();
-		request.put("fileId", fileId);
+		try {
+			request.put("fileId", jobParams.get("fileId"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 
 		// Header
 		String oAuthToken = "OAuth "+BatchUtils.getAccessToken();
@@ -125,7 +134,7 @@ public class BatchConfiguration {
 
 	@Bean
 	public Step step1(ItemWriter<JSONObject> writer) {
-		return stepBuilderFactory.get("step1").<POSFileMarshallingBean, JSONObject>chunk(10)
-				.reader(reader()).processor(processor()).writer(writer).build();
+		return stepBuilderFactory.get("step1").<String, JSONObject>chunk(10)
+				.reader(posFileReader(null)).processor(processor()).writer(writer).build();
 	}
 }

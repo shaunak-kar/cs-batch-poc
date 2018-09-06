@@ -25,7 +25,7 @@ public class IndexController {
     @GetMapping("/")
     public String index() throws Exception{
     	
-        return "Collection Batch is running";
+        return "CS Batch Engine is Up";
     }
     
     @GetMapping("/initiateCollection")
@@ -33,13 +33,13 @@ public class IndexController {
     	JobParameters jobParameters = new JobParametersBuilder().addString("fileId", posFileId)
 				.toJobParameters();
     	try {
-			jobLauncher.run(job, new JobParameters());
+			jobLauncher.run(job, jobParameters);
 		} catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException
 				| JobParametersInvalidException e) {
 			e.printStackTrace();
 		}
     	
     	System.out.println("Initialized Collections for : " +posFileId);
-        return "Child Support batch is good to go";
+        return "CS Collection Batch Executed";
     }
 }

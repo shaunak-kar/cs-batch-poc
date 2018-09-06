@@ -1,5 +1,8 @@
 package reader;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.batch.item.ItemReader;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -8,22 +11,29 @@ import org.springframework.web.client.RestTemplate;
 
 import dto.POSFileDTO;
 
-public class POSFileReader implements ItemReader<POSFileDTO>{
+public class POSFileReader implements ItemReader<String>{
 	
 	private final HttpEntity<String> requestEntity;
 	private final RestTemplate restTemplate;
-	private int nextFileIndex;
-	private POSFileDTO posFileContent;
+	private int nextFileIndex = 0;
+	private List<String> posFileContent = new ArrayList<>();
 	private final String url = "https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/apexrest/fetchfilecontent/";
 
 	@Override
-	public POSFileDTO read() throws Exception {
-		
-		if(posFileContent == null) {
-			this.posFileContent = this.getPOSFileContent();
+	public String read() throws Exception {
+		String nextPosFile;
+		if(posFileContent.isEmpty()) {
+			this.getPOSFileContent();
 		}
-		// TODO Auto-generated method stub
-		return this.posFileContent;
+		
+		nextPosFile = null;
+		
+		if (nextFileIndex < posFileContent.size()) {
+			nextPosFile = posFileContent.get(nextFileIndex);
+            nextFileIndex++;
+        }
+				
+		return nextPosFile;
 	}
 
 	public POSFileReader(HttpEntity<String> requestEntity, RestTemplate restTemplate) {
@@ -33,11 +43,10 @@ public class POSFileReader implements ItemReader<POSFileDTO>{
 	}
 	
 	//Eventually change this to accept multiple fileIds and return multiple file contents
-	private POSFileDTO getPOSFileContent() {
-		ResponseEntity<POSFileDTO> response = restTemplate.exchange(this.url, HttpMethod.POST, this.requestEntity,
-				POSFileDTO.class);
-		posFileContent = response.getBody();
-		System.out.println("POS FileContent:" + posFileContent.getContent());
+	private List<String> getPOSFileContent() {
+		ResponseEntity<String> response = restTemplate.postForEntity(this.url, this.requestEntity,
+				String.class);
+		posFileContent.add(response.getBody());
 		return posFileContent;
 	}
 	
