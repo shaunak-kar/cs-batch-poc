@@ -1,5 +1,7 @@
 package batch;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -61,7 +63,6 @@ public class BatchConfiguration {
 	@StepScope
 	public ItemReader<String> posFileReader(@Value("#{jobParameters}") Map<String,String> jobParams) {
 		//String fileId = "0681h0000001nniAAA";
-		System.out.println("Params:" + jobParams);
 		System.out.println("Reading File:" + jobParams.get("fileId"));
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -69,7 +70,9 @@ public class BatchConfiguration {
 		// Body
 		JSONObject request = new JSONObject();
 		try {
-			request.put("fileId", jobParams.get("fileId"));
+			List<String> fileIdArr = Arrays.asList(jobParams.get("fileId").split(","));
+			request.put("fileIds", fileIdArr);
+			System.out.println("Request Body: "+ request.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

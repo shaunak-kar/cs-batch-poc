@@ -1,8 +1,11 @@
 package reader;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -46,7 +49,16 @@ public class POSFileReader implements ItemReader<String>{
 	private List<String> getPOSFileContent() {
 		ResponseEntity<String> response = restTemplate.postForEntity(this.url, this.requestEntity,
 				String.class);
-		posFileContent.add(response.getBody());
+		try {
+			JSONObject obj  = new JSONObject(response.getBody());
+			System.out.println(obj.toString());
+			Iterator<String> i = obj.keys();
+			while(i.hasNext()) {
+					posFileContent.add(obj.getString(i.next()));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		return posFileContent;
 	}
 	

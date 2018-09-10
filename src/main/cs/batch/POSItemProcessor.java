@@ -96,15 +96,15 @@ public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
     }
     
     private POSFileMarshallingBean marshallPOSFileContents(String posFileContents) {
-    	String header = posFileContents.substring(1, 21);
-    	String detail = posFileContents.substring(25, 127);
-    	String trailer = posFileContents.substring(131, 151);
+    	String header = posFileContents.substring(0, 21);
+    	System.out.println("Header: "+ header);
+    	String detail = posFileContents.substring(22, 125);
+    	System.out.println("Detail"+ detail);
+    	String trailer = posFileContents.substring(125, 145);
+    	System.out.println("Trailer: "+ trailer);
     	
     	POSFileMarshallingBean pos1 = new POSFileMarshallingBean();
-    	System.out.println("Header: "+ header);
-    	System.out.println("Detail"+ detail);
-    	System.out.println("Trailer: "+ trailer);
-		 pos1.setPostHeaderRecordType(header.substring(0, 2));
+    	 pos1.setPostHeaderRecordType(header.substring(0, 2));
 		 pos1.setPostFileSequenceNumber(header.substring(2, 12));
 		 pos1.setPostTransmitDate(header.substring(12, 20));
 		 
