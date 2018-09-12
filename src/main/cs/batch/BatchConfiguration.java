@@ -62,8 +62,7 @@ public class BatchConfiguration {
 	@Bean
 	@StepScope
 	public ItemReader<String> posFileReader(@Value("#{jobParameters}") Map<String,String> jobParams) {
-		//String fileId = "0681h0000001nniAAA";
-		System.out.println("Reading File:" + jobParams.get("fileId"));
+		System.out.println("Reading Files:" + jobParams.get("fileId"));
 
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -89,10 +88,8 @@ public class BatchConfiguration {
 		return new POSFileReader(reqEntity, restTemplate);
 	}
 
-	/*
-	 * TODO 1. Read POS1-SDU-YYYYMMDD-TIMESTAMP.csv file 2.
-	 */
 	//@Bean
+	//Tester Reader | Not in Use | Do Not Delete
 	public FlatFileItemReader<POSFileMarshallingBean> reader() {
 
 		return new FlatFileItemReaderBuilder<POSFileMarshallingBean>().name("posRecordReader")
@@ -119,6 +116,7 @@ public class BatchConfiguration {
 	}
 
 	@Bean
+	//Tester Reader | Not in Use | Do Not Delete
 	public JdbcBatchItemWriter<POSCollectionRecord> writer(DataSource dataSource) {
 		System.out.println("Writing...");
 
@@ -126,7 +124,6 @@ public class BatchConfiguration {
 				.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
 				.sql("INSERT INTO people (first_name, last_name) VALUES (:name, :amount)").dataSource(dataSource)
 				.build();
-		
 	}
 
 	@Bean

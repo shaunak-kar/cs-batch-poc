@@ -27,6 +27,7 @@ public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
 	boolean isUserException = false;
 	private char batchCount = 'A';
 
+	//TODO: Integrate All Validations
     public JSONObject preprocessSduInputRecord(String obj) throws Exception {
     	POSFileMarshallingBean inputMarshalledRecord = this.marshallPOSFileContents(obj);
     	//Create POSSDURecord from POSFileMarshallingBean
@@ -143,12 +144,17 @@ public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
 			fiReceipt.put("AMOUNT__c", detail.getPostReceiptAmount());
 			fiReceipt.put("MEMBER_ID__c", detail.getPostMemberId());
 			fiReceipt.put("BATCH_NUMBER__C", inputRecord.getPosHeaderRecord().getPostFileSequenceNumber());
+			fiReceipt.put("RECEIPT_NUM__c", "2120171006KA001001000");
 			
 			fiReceiptArray.put(fiReceipt);
 			
 			batch.put("TOTAL_BATCH_AMOUNT__C", inputRecord.getPosTrailerRecord().getPostTotalAmount());
 			batch.put("BATCH_NUMBER__C", inputRecord.getPosHeaderRecord().getPostFileSequenceNumber());
 			batch.put("BATCH_DATE__C", BatchUtils.formatDate(inputRecord.getPosHeaderRecord().getPostTransmitDate()));
+			batch.put("PAYMENT_SOURCE__c", detail.getPostSource());
+			batch.put("PAYMENT_METHOD__c", detail.getPostPayMethod());
+			batch.put("BATCH_ID__c","2120171006KA001" );
+			
 			batchArray.put(batch);
 
 			json.put("FI_RECIEPTS", fiReceiptArray);

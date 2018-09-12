@@ -8,11 +8,9 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import dto.POSFileDTO;
 
 public class POSFileReader implements ItemReader<String>{
 	

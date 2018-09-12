@@ -79,6 +79,8 @@ public class BatchUtils {
 		detail.setPostBatchDate(bean.getPostBatchDate());
 		detail.setPostReceiptAmount(bean.getPostReceiptAmount());
 		detail.setPostMemberId(bean.getPostMemberId());
+		detail.setPostPayMethod(bean.getPostPayMethod());
+		detail.setPostSource(bean.getPostSource());
 		lstDetail.add(detail);
 		
 		sdu.setPosHeaderRecord(header);
