@@ -75,12 +75,25 @@ public class BatchUtils {
 		
 		header.setPostFileSequenceNumber(bean.getPostFileSequenceNumber());
 		header.setPostTransmitDate(bean.getPostTransmitDate());
+		header.setPostHeaderRecordType(bean.getPostHeaderRecordType());
 		trailer.setPostTotalAmount(bean.getPostTotalAmount());
 		detail.setPostBatchDate(bean.getPostBatchDate());
 		detail.setPostReceiptAmount(bean.getPostReceiptAmount());
 		detail.setPostMemberId(bean.getPostMemberId());
 		detail.setPostPayMethod(bean.getPostPayMethod());
 		detail.setPostSource(bean.getPostSource());
+		detail.setPostReceiptType(bean.getPostReceiptType());
+		detail.setPostScdNumber(bean.getPostScdNumber());
+		detail.setPostShortName(bean.getPostShortName());
+		detail.setPostCaseId(bean.getPostCaseId());
+		detail.setPostDefSsn(bean.getPostDefSsn());
+		detail.setPostColDate(bean.getPostColDate());
+		detail.setPostEmpId(bean.getPostEmpId());
+		detail.setPostCheckNum(bean.getPostCheckNum());
+		trailer.setPostRecordCount(bean.getPostRecordCount());	
+		 trailer.setPostTrailerRecordType(bean.getPostTrailerRecordType());
+		 trailer.setPostTotalAmount(bean.getPostTotalAmount());
+		
 		lstDetail.add(detail);
 		
 		sdu.setPosHeaderRecord(header);
@@ -103,6 +116,28 @@ public class BatchUtils {
 			e.printStackTrace();
 		}
 		return null;
+		
+	}
+	
+	public static ResponseEntity<String> getDataFromRestCall(String endpoint,String requestBody){
+		
+		RestTemplate restTemplate = new RestTemplate();
+		// Header
+		
+		System.out.println("Entered--Rest-Call");
+		String oAuthToken = "OAuth "+ BatchUtils.getAccessToken();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Authorization", oAuthToken);
+		System.out.println("Access token verified");
+		
+		// Entity
+		HttpEntity<String> reqEntity = new HttpEntity<String>(requestBody, headers);
+		ResponseEntity<String> resp = restTemplate.postForEntity(endpoint, reqEntity, String.class);
+		
+		
+		System.out.println("Response: "+ resp);
+		return resp;
 		
 	}
 }

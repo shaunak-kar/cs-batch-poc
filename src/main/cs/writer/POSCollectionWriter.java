@@ -16,6 +16,7 @@ public class POSCollectionWriter implements ItemWriter<JSONObject>{
 
 	@Override
 	public void write(List<? extends JSONObject> str) throws Exception {
+	
 		RestTemplate restTemplate = new RestTemplate();
 		String endpoint = "https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/apexrest/createreceipts/";
 

@@ -14,18 +14,60 @@ public class POSDetailRecord {
 	private String postSource;
 	private String postEmpId;
 	private String postCheckNum;
+	private String reasonCd;
+	private String receiptStatus;
+	private String countyCode;
+	private boolean isUnpostedRecord;
+	
+	
 	public String getPostReceiptType() {
 		return postReceiptType;
 	}
+	
 	public void setPostReceiptType(String postReceiptType) {
 		this.postReceiptType = postReceiptType;
 	}
+	
+	public boolean getIsUnpostedRecord() {
+		return isUnpostedRecord;
+	}
+	
+	public void setIsUnpostedRecord(boolean isUnpostedRecord) {
+		this.isUnpostedRecord = isUnpostedRecord;
+	}
+	
+	public String getCountyCode() {
+		return countyCode;
+	}
+	
+	public void setCountyCode(String countyCode) {
+		this.countyCode = countyCode;
+	}
+	
+	public String getReceiptStatus() {
+		return receiptStatus;
+	}
+	
+	public void setReceiptStatus(String receiptStatus) {
+		this.receiptStatus = receiptStatus;
+	}
+	
 	public String getPostBatchDate() {
 		return postBatchDate;
 	}
 	public void setPostBatchDate(String postBatchDate) {
 		this.postBatchDate = postBatchDate;
 	}
+	
+	
+	public String getReasonCd() {
+		return this.reasonCd;
+	}
+	
+	public void setReasonCd(String reasonCd) {
+		this.reasonCd = reasonCd;
+	}
+	
 	public String getPostMemberId() {
 		return postMemberId;
 	}
@@ -98,6 +140,6 @@ public class POSDetailRecord {
 				+ ", postMemberId=" + postMemberId + ", postScdNumber=" + postScdNumber + ", postShortName="
 				+ postShortName + ", postCaseId=" + postCaseId + ", postDefSsn=" + postDefSsn + ", postColDate="
 				+ postColDate + ", postReceiptAmount=" + postReceiptAmount + ", postPayMethod=" + postPayMethod
-				+ ", postSource=" + postSource + ", postEmpId=" + postEmpId + ", postCheckNum=" + postCheckNum + "]";
+				+ ", postSource=" + postSource + ", postEmpId=" + postEmpId + ", postCheckNum=" + postCheckNum + "receiptStatus = "+receiptStatus + " CountyCode = " + countyCode +"isUnpostedRecord =  "+ isUnpostedRecord + "]";
 	}
 }
