@@ -95,7 +95,7 @@ public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
 			if (null != inputRecord) {
 				inputRecord = validateInputFileCollections(inputRecord, false, FILE_SDU);
 			}
-			log.error("Validate Inputfile has been done.." + inputRecord);
+			log.error("Validate Inputfile has been done.." + inputRecord.toString());
 			
 			fiRcvCollPostOutput = this.mapToOutputObject(inputRecord,fiRcvCollPostOutput);
 
@@ -638,7 +638,10 @@ public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
 			boolean isNameAndSsnMatch = false;
 			boolean isMemberIdExist =  Boolean.parseBoolean( respBody.getString("isMemberIdExisting"));
 			boolean isNameAndLastNameMatch =  Boolean.parseBoolean( respBody.getString("isMemberLastNameMatched"));
-			boolean isSSNExist =  Boolean.parseBoolean( respBody.getString("isSSNExisting"));
+			boolean isSSNExist =false;
+			if(!isMemberIdExist) {
+				isSSNExist =  Boolean.parseBoolean( respBody.getString("isSSNExisting"));
+				}
 			String memberIdBySSN  = "";
 			if(respBody.has("memberId")) {
 			
@@ -650,7 +653,7 @@ public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
 			
 			
 
-
+			//Started with Excecution of Validation 
 			if (null != detailRecord.getPostMemberId() && !FiConstants.BLANK.equalsIgnoreCase(detailRecord.getPostMemberId().trim())) {
 						
 						
@@ -660,6 +663,7 @@ public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
 								detailRecord.setReceiptStatus(FiConstants.IDENTIFIED_RECEIPT);
 							}else 
 							{
+							
 								detailRecord = setValuesInReceiptsCargo(detailRecord, FiConstants.UNIDENTIFIED_RECEIPT, FiConstants.UNIDENTIFIED_COUNTY,FiConstants.REASON_CODE_CMU);
 
 							}
