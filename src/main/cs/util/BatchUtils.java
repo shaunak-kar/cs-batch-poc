@@ -32,7 +32,9 @@ public class BatchUtils {
 	}
 
 	public static String getAccessToken() {
-		String endpoint="https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/oauth2/token";
+		//String endpoint="https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/oauth2/token";
+		String endpoint= "https://next-gen-child-cs22--csdemo.cs60.my.salesforce.com/services/oauth2/token";
+		
 		// Dev Org Details
 		
 		/*	 String username = "csdemo@nextgen-cs.com";

@@ -392,7 +392,8 @@ public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
 
 
 			memJson.put("fileSequenceNumber",posSeqNum);
-			resp  = BatchUtils.getDataFromRestCall("https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/apexrest/validateheader/",memJson.toString() );
+			String endpoint= "https://next-gen-child-cs22--csdemo.cs60.my.salesforce.com/services/apexrest/";
+			resp  = BatchUtils.getDataFromRestCall(endpoint+"validateheader/",memJson.toString() );
 
 		} catch (Exception e) {
 			System.out.println("--EXCEPTION---"+e.getMessage() );
@@ -627,7 +628,7 @@ public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
 			jsonBody.put("jsoninput", detailJSON);
 			System.out.println(jsonBody.toString());
 			log.info(jsonBody.toString());
-			ResponseEntity<String>	 resp  = BatchUtils.getDataFromRestCall("https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/apexrest/validateMemberId/",jsonBody.toString() );
+			ResponseEntity<String>	 resp  = BatchUtils.getDataFromRestCall("https://next-gen-child-cs22--csdemo.cs60.my.salesforce.com/services/apexrest/validateMemberId/",jsonBody.toString() );
 
 			System.out.println(resp.getBody());
 			

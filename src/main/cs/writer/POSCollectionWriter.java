@@ -18,8 +18,8 @@ public class POSCollectionWriter implements ItemWriter<JSONObject>{
 	public void write(List<? extends JSONObject> str) throws Exception {
 	
 		RestTemplate restTemplate = new RestTemplate();
-		String endpoint = "https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/apexrest/createreceipts/";
-
+		//String endpoint = "https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/apexrest/createreceipts/";
+		String endpoint= "https://next-gen-child-cs22--csdemo.cs60.my.salesforce.com/services/apexrest/createreceipts";
 		// Body
 		String request = str.get(0).toString();
 		System.out.println("Collections to Write: "+ request);
