@@ -33,10 +33,18 @@ public class BatchUtils {
 
 	public static String getAccessToken() {
 		String endpoint="https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/oauth2/token";
-        String username = "csdemo@nextgen-cs.com";
+		// Dev Org Details
+		
+		/*	 String username = "csdemo@nextgen-cs.com";
         String password = "Deloitte.123bVtTgbUtNegHQYylq9tczWcU";
         String ClientId= "3MVG98im9TK34CUUPEErKNM6CLDHiNFt5rSE39XabQa.x6E.9mKOg.ys3KkuhEI8B2FEIpv6bb2j1fqDQkGTJ";
-        String ClientSecret = "1127711847586731019";
+        String ClientSecret = "1127711847586731019";*/
+		
+		// Demo Org Details.                   
+        String username = "csdemo@nextgen-csdemo.com";
+        String password = "Hello123PDYU40r6UuKtSbGM5qiQSGLy";
+        String ClientId= "3MVG9oZtFCVWuSwMo_8Ij7qDkIOa6TaR.qMN5Mi.Bj.Mb_WYODxK8_RI0iLnCpjwGxFrlCEhZOOW4c55NKPrR";
+        String ClientSecret = "6855908894036373949";
         
         //Header
         HttpHeaders headers = new HttpHeaders();
