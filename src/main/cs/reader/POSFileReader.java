@@ -18,8 +18,8 @@ public class POSFileReader implements ItemReader<String>{
 	private final RestTemplate restTemplate;
 	private int nextFileIndex = 0;
 	private List<String> posFileContent = new ArrayList<>();
-	//private final String url = "https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/apexrest/fetchfilecontent/";
-	private final String url = "https://next-gen-child-cs22--csdemo.cs60.my.salesforce.com/services/apexrest/fetchfilecontent/";
+	private final String url = "https://next-gen-child-cs22--cs.cs79.my.salesforce.com/services/apexrest/fetchfilecontent/";
+	//private final String url = "https://next-gen-child-cs22--csdemo.cs60.my.salesforce.com/services/apexrest/fetchfilecontent/";
 	
 	@Override
 	public String read() throws Exception {
