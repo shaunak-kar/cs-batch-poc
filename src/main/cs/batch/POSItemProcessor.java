@@ -164,13 +164,14 @@ public class POSItemProcessor implements ItemProcessor<String, JSONObject> {
 			if(!detail.getIsUnpostedRecord()) {
 			fiReceipt.put("RECEIPT_DT__c", BatchUtils.formatDate(detail.getPostBatchDate()));
 			fiReceipt.put("AMOUNT__c", detail.getPostReceiptAmount());
-			fiReceipt.put("MEMBER_ID__c", detail.getPostMemberId());
+			fiReceipt.put("MEMBER_NAME__c", detail.getPostMemberId());
 			fiReceipt.put("MEMBER_SSN__c", detail.getPostDefSsn());
 			fiReceipt.put("MEMBER_SHORT__c", detail.getPostShortName());
 			fiReceipt.put("BATCH_NUMBER__C", inputRecord.getPosHeaderRecord().getPostFileSequenceNumber());
 			fiReceipt.put("RECEIPT_NUM__c", ReciptNumber);
 			fiReceipt.put("RECEIPT_STATUS__c", detail.getReceiptStatus());
 			fiReceipt.put("REASON_CD__c", detail.getReasonCd());
+			fiReceipt.put("CASE__c", detail.getPostCaseId());
 
 			fiReceiptArray.put(fiReceipt);
 			json.put("FI_RECIEPTS", fiReceiptArray);
